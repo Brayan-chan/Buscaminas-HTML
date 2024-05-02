@@ -94,12 +94,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         Swal.fire({
-            title: '¡Oh no!',
+            title: '¡Perdiste!',
             text: `Has perdido, ${playerName}. ¡Inténtalo de nuevo!`,
             icon: 'error',
             confirmButtonText: 'OK'
-        });
-    }
+            // reininiciar el juego
+        }).then((result) => {
+            if (result.isConfirmed) {
+                alert('Tu puntaje fue de: ' + score);
+                resetGame();
+            }
+        })
+        }
+    
 
 
     function createBoard(rows, columns) {
