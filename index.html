@@ -40,21 +40,33 @@
             let currentRows = 0;
             let currentColumns = 0;
             let currentMines = 0;
-        
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const cellElements = document.querySelectorAll('.cell');
+
+            if (isMobile) {
+                cellElements.forEach(cell => {
+                    cell.addEventListener('touchend', handleCellTouch);
+                });
+            } else {
+                cellElements.forEach(cell => {
+                    cell.addEventListener('click', handleCellClick);
+                });
+            }
+
             configForm.addEventListener('submit', function (event) {
                 event.preventDefault();
                 playerName = document.getElementById('player-name').value;
                 const rows = parseInt(document.getElementById('rows').value);
                 const columns = parseInt(document.getElementById('columns').value);
                 const mines = parseInt(document.getElementById('mines').value);
-        
+
                 currentRows = rows;
                 currentColumns = columns;
                 currentMines = mines;
-        
+
                 startGame(rows, columns, mines);
             });
-        
+
             let boardSize = { rows: 0, columns: 0 };
             let totalMines = 0;
             let remainingCells = 0;
@@ -62,7 +74,7 @@
             let revealedCells = [];
             let flaggedCells = [];
             let score = 0;
-        
+
             function startGame(rows, columns, mines) {
                 boardSize = { rows, columns };
                 totalMines = mines;
@@ -72,22 +84,41 @@
                 flaggedCells = Array.from({ length: rows }, () => Array(columns).fill(false));
                 playerName = playerName || 'Player';
                 score = 0;
-        
+
                 generateMines(rows, columns, mines);
                 createBoard(rows, columns);
                 displayScore(score);
             }
-        
+
+            
+
+
+            function handleCellTouch(event) {
+                event.preventDefault();
+                const row = parseInt(event.target.dataset.row);
+                const col = parseInt(event.target.dataset.col);
+
+                if (revealedCells[row][col] || flaggedCells[row][col]) {
+                    return;
+                }
+                if (gameBoard[row][col] === 'mine') {
+                    gameOver();
+                } else {
+                    revealCell(row, col);
+                    checkWin();
+                }
+            }
+
             function newGame() {
                 score = 0;
                 displayScore(score);
             }
-        
+
             function revealCell(row, col) {
                 if (revealedCells[row][col] || flaggedCells[row][col]) {
                     return;
                 }
-        
+
                 if (gameBoard[row][col] === 'mine') {
                     gameOver();
                 } else if (gameBoard[row][col] === 0) {
@@ -102,7 +133,7 @@
                     cellElement.classList.add('revealed');
                 }
             }
-        
+
             function checkWin() {
                 if (remainingCells === totalMines) {
                     score += 100;
@@ -115,7 +146,7 @@
                     });
                 }
             }
-        
+
             function gameOver() {
                 for (let i = 0; i < boardSize.rows; i++) {
                     for (let j = 0; j < boardSize.columns; j++) {
@@ -126,7 +157,7 @@
                         }
                     }
                 }
-        
+
                 Swal.fire({
                     title: '¡Perdiste!',
                     text: `Has perdido, ${playerName}. ¡Inténtalo de nuevo!`,
@@ -139,10 +170,10 @@
                         resetGame();
                     }
                 })
-                }
-            
-        
-        
+            }
+
+
+
             function createBoard(rows, columns) {
                 const boardElement = document.getElementById('game-board');
                 boardElement.innerHTML = '';
@@ -157,7 +188,7 @@
                     }
                 }
             }
-        
+
             function generateMines(rows, columns, mines) {
                 let minesPlaced = 0;
                 while (minesPlaced < mines) {
@@ -168,7 +199,7 @@
                         minesPlaced++;
                     }
                 }
-        
+
                 for (let i = 0; i < rows; i++) {
                     for (let j = 0; j < columns; j++) {
                         if (gameBoard[i][j] !== 'mine') {
@@ -187,16 +218,16 @@
                     }
                 }
             }
-        
+
             function displayScore(score) {
                 const scoreElement = document.getElementById('score');
                 scoreElement.textContent = `Puntaje: ${score}`;
             }
-        
+
             function handleCellClick(event) {
                 const row = parseInt(event.target.dataset.row);
                 const col = parseInt(event.target.dataset.col);
-        
+
                 if (revealedCells[row][col] || flaggedCells[row][col]) {
                     return;
                 }
@@ -207,13 +238,13 @@
                     checkWin();
                 }
             }
-        
+
             function resetGame() {
                 startGame(currentRows, currentColumns, currentMines);
             }
-        
+
             resetButton.addEventListener('click', resetGame);
-        
+
             function checkWin() {
                 if (remainingCells === totalMines) {
                     score += 100;
