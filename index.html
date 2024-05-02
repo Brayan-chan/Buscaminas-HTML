@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscaminas</title>
+    <link rel="stylesheet" href="./chan_pacheco/css/">
+</head>
+
+<body>
+    <div class="fondo">
+        <img id="fondo" src="./chan_pacheco/img/background.jpg" alt="fondo">
+        <div class="container">
+            <form id="config-form">
+                <label for="player-name">Nombre del jugador:</label>
+                <input type="text" id="player-name" required>
+                <label for="rows">Filas:</label>
+                <input type="number" id="rows" min="1" max="20" value="10" required>
+                <label for="columns">Columnas:</label>
+                <input type="number" id="columns" min="1" max="20" value="10" required>
+                <label for="mines">Minas:</label>
+                <input type="number" id="mines" min="1" max="100" value="10" required>
+                <button type="submit" id="start-button">Comenzar juego</button>
+            </form>
+            <div class="game">
+                <div id="game-board"></div>
+                <button id="reset-button">Nuevo juego</button>
+                <div id="score"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./chan_pacheco/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+</html>
