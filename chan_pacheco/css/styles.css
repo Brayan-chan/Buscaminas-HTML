@@ -12,8 +12,8 @@
 
 #game-board {
     display: grid;
-    grid-template-columns: repeat(10, minmax(30px, 1fr)); /* Cambia 10 al tamaño de tu campo de juego */
-    grid-template-rows: repeat(10, minmax(30px, 1fr)); /* Cambia 10 al tamaño de tu campo de juego */
+    grid-template-columns: repeat(10, minmax(30px, 1fr)); 
+    grid-template-rows: repeat(10, minmax(30px, 1fr)); 
     gap: 1px;
     box-shadow: 0 0 20px rgba(0, 0, 0, .8);
     border-radius: 20px;
@@ -161,10 +161,30 @@ body .swal2-popup .swal2-confirm {
     transition: background-color 0.3s ease;
 }
 
+body .swal2-popup .swal2-cancel {
+    background-color: #f5f5f5;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    font-style: normal;
+    border-radius: 20px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
 body.swal2-popup .swal2-confirm:hover {
     background-color: #dedddd;
 }
 
+body .swal2-popup .swal2-cancel:hover {
+    background-color: #dedddd;
+}
+
 body .swal2-popup .swal2-confirm:active {
+    transform: scale(0.95);
+}
+
+body .swal2-popup .swal2-cancel:active {
     transform: scale(0.95);
 }
